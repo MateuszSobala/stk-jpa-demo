@@ -1,6 +1,7 @@
 package com.capgemini.starterkit.service;
 
 import com.capgemini.starterkit.entity.Book;
+import com.capgemini.starterkit.to.BookDto;
 
 public interface BookService {
 	
@@ -8,6 +9,9 @@ public interface BookService {
 	
 	public void createBook(String isbn, String title);
 
-	public void delete(Book book);
+	public void delete(BookDto bookDto);
 
+	BookDto add(BookDto bookDto);
+
+	BookDto update(BookDto bookDto);
 }

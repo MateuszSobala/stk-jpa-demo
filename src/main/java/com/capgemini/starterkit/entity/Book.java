@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Cascade;
+
 import com.capgemini.starterkit.datatype.BookType;
 import com.capgemini.starterkit.repository.BookQueries;
 
@@ -38,7 +40,7 @@ public class Book extends AbstractEntity {
 
 	private boolean active;
 
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private List<Author> author;
 
 	public String getIsbn() {

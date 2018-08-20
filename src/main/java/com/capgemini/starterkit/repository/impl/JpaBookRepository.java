@@ -31,11 +31,20 @@ public class JpaBookRepository implements BookRepository {
         }
     }
 
-    @Override public void saveBook(Book book) {
+    @Override
+    public void saveBook(Book book) {
         entityManager.persist(book);
     }
 
-    @Override public void deleteBook(Book book) {
-        entityManager.remove(book);
+    @Override
+    public void updateBook(Book book) {
+        entityManager.merge(book);
+    }
+
+    @Override
+    public void deleteBook(Book book) {
+        entityManager.remove(entityManager.getReference(Book.class, book.getId()));
+        // EntityManager#remove() works only on entities which are managed in the current transaction/context.
+        // Therefore the entity's state should be updated.
     }
 }

@@ -1,7 +1,5 @@
 package com.capgemini.starterkit.service.impl;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.capgemini.starterkit.datatype.BookType;
 import com.capgemini.starterkit.entity.Book;
+import com.capgemini.starterkit.mapper.BookMapper;
 import com.capgemini.starterkit.repository.BookRepository;
 import com.capgemini.starterkit.service.BookService;
+import com.capgemini.starterkit.to.BookDto;
 
 @Service
 @Transactional
@@ -18,6 +18,9 @@ public class BookServiceImpl implements BookService {
 
 	@Autowired
 	private BookRepository bookRepository;
+
+	@Autowired
+	private BookMapper bookMapper;
 
 	@Override
 	public Book findBookByIsbn(String isbn) {
@@ -34,9 +37,25 @@ public class BookServiceImpl implements BookService {
 		bookRepository.saveBook(b);
 	}
 
-	@Override public void delete(Book book) {
+	@Override
+	public void delete(BookDto bookDto) {
+		Book book = bookMapper.bookDtoToBook(bookDto);
 		bookRepository.deleteBook(book);
 
+	}
+
+	@Override
+	public BookDto add(BookDto bookDto) {
+		Book book = bookMapper.bookDtoToBook(bookDto);
+		bookRepository.saveBook(book);
+		return bookMapper.bookToBookDto(book);
+	}
+
+	@Override
+	public BookDto update(BookDto bookDto) {
+		Book book = bookMapper.bookDtoToBook(bookDto);
+		bookRepository.updateBook(book);
+		return bookMapper.bookToBookDto(book);
 	}
 
 }

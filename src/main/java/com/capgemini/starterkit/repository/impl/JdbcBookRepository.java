@@ -44,6 +44,10 @@ public class JdbcBookRepository implements BookRepository{
 
     }
 
+    @Override public void updateBook(Book book) {
+
+    }
+
     @Override public void deleteBook(Book book) {
         String sqlDelete = "DELETE FROM book where id=:id";
         Map<String,Object> parameters = Maps.newHashMap();
