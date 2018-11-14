@@ -1,17 +1,20 @@
 package com.capgemini.starterkit.mapper;
 
+import java.util.List;
+
+import org.mapstruct.Context;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 import com.capgemini.starterkit.entity.Author;
+import com.capgemini.starterkit.mapper.common.CycleAvoidingMappingContext;
 import com.capgemini.starterkit.to.AuthorDto;
 
 @Mapper(componentModel="spring")
 public interface AuthorMapper {
 
-    AuthorMapper INSTANCE = Mappers.getMapper(AuthorMapper.class);
+    AuthorDto authorToAuthorDto(Author author, @Context CycleAvoidingMappingContext context);
 
-    AuthorDto authorkToAuthorDto(Author author);
+    List<AuthorDto> toListAuthorDto(List<Author> authors, @Context CycleAvoidingMappingContext context);
 
-    Author authorDtoToAuthor(AuthorDto authorDto);
+    Author authorDtoToAuthor(AuthorDto authorDto, @Context CycleAvoidingMappingContext context);
 }

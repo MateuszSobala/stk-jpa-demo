@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.capgemini.starterkit.datatype.BookType;
 import com.capgemini.starterkit.entity.Book;
 import com.capgemini.starterkit.mapper.BookMapper;
+import com.capgemini.starterkit.mapper.common.CycleAvoidingMappingContext;
 import com.capgemini.starterkit.repository.BookRepository;
 import com.capgemini.starterkit.service.BookService;
 import com.capgemini.starterkit.to.BookDto;
@@ -39,23 +40,23 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public void delete(BookDto bookDto) {
-		Book book = bookMapper.bookDtoToBook(bookDto);
+		Book book = bookMapper.bookDtoToBook(bookDto, CycleAvoidingMappingContext.create());
 		bookRepository.deleteBook(book);
 
 	}
 
 	@Override
 	public BookDto add(BookDto bookDto) {
-		Book book = bookMapper.bookDtoToBook(bookDto);
+		Book book = bookMapper.bookDtoToBook(bookDto, CycleAvoidingMappingContext.create());
 		bookRepository.saveBook(book);
-		return bookMapper.bookToBookDto(book);
+		return bookMapper.bookToBookDto(book, CycleAvoidingMappingContext.create());
 	}
 
 	@Override
 	public BookDto update(BookDto bookDto) {
-		Book book = bookMapper.bookDtoToBook(bookDto);
+		Book book = bookMapper.bookDtoToBook(bookDto, CycleAvoidingMappingContext.create());
 		bookRepository.updateBook(book);
-		return bookMapper.bookToBookDto(book);
+		return bookMapper.bookToBookDto(book, CycleAvoidingMappingContext.create());
 	}
 
 }

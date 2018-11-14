@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.capgemini.starterkit.datatype.BookType;
 import com.capgemini.starterkit.entity.Book;
 import com.capgemini.starterkit.mapper.AuthorMapper;
+import com.capgemini.starterkit.mapper.common.CycleAvoidingMappingContext;
 import com.capgemini.starterkit.repository.AuthorRepository;
 import com.capgemini.starterkit.to.AuthorDto;
 import com.capgemini.starterkit.to.BookDto;
@@ -103,8 +104,8 @@ public class BookServiceTest {
         // Sienkiewicz couldn't be added to book before add(easyJpa), because then Hibernate would cascade the
         // persist operation and hence would try to persist an existing entity.
 
-        AuthorDto existingHenrykSienkiewicz = authorMapper.authorkToAuthorDto(
-            authorRepository.findByLastName("Sienkiewicz").get(0));
+        AuthorDto existingHenrykSienkiewicz = authorMapper.authorToAuthorDto(
+            authorRepository.findByLastName("Sienkiewicz").get(0), CycleAvoidingMappingContext.create());
         newlyAddedEasyJpa.getAuthor().add(existingHenrykSienkiewicz);
         existingHenrykSienkiewicz.getBook().add(newlyAddedEasyJpa);
 
@@ -158,8 +159,8 @@ public class BookServiceTest {
 
         BookDto newlyAddedEasyJpa = bookService.add(easyJpa);
 
-        AuthorDto existingHenrykSienkiewicz = authorMapper.authorkToAuthorDto(
-            authorRepository.findByLastName("Sienkiewicz").get(0));
+        AuthorDto existingHenrykSienkiewicz = authorMapper.authorToAuthorDto(
+            authorRepository.findByLastName("Sienkiewicz").get(0), CycleAvoidingMappingContext.create());
         newlyAddedEasyJpa.getAuthor().add(existingHenrykSienkiewicz);
         existingHenrykSienkiewicz.getBook().add(newlyAddedEasyJpa);
 
